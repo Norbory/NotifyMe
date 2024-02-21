@@ -2,7 +2,8 @@
 import { useState, useEffect, useRef } from 'react';
 import {
   Navbar, 
-  Card
+  Card,
+  Footer
 } from './components';
 import { posts } from './data';
 import { Post } from "./types";
@@ -31,14 +32,17 @@ function App() {
   };
 
   return (
-    <div className='container self-center'>
+    <div className='container flex flex-col flex-1 self-center'>
       {user ? (
         <>
           <Navbar user={user}/>
-          <h1 className='mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl'>Welcome {user}</h1>
-          {posts.map((post: Post) => 
-            (<Card key={post.id} post={post} />)
-          )}
+          <h1 className='mb-4 md:mb-8 text-lg font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-4xl'>Welcome, {user.toUpperCase()}</h1>
+          <div className='flex flex-col justify-center items-center'>
+            {posts.map((post: Post) => 
+              (<Card key={post.id} post={post} />)
+            )}
+          </div>
+          <Footer />
         </>
       ) : (
         <div className=''>

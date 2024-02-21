@@ -11,7 +11,7 @@ export function Navbar ({ user }: { user: string }) {
 
   switch (user) {
     case 'angelo':
-      perfil = MAR;
+      perfil = MONO;
       break;
     case 'angela_pazita':
       perfil = FROG;
@@ -30,7 +30,7 @@ export function Navbar ({ user }: { user: string }) {
   }
 
   return (
-    <nav className="p-4 flex items-center justify-end w-full h-16">
+    <nav className="p-4 flex items-center justify-end h-16 bg-inherit sm:w-full">
   
       <a className="text-black hover:text-gray-300 mr-4 md:text-2xl text-lg mx-8 cursor-pointer"> {/* Ajusta el tamaño del texto */}
         <FontAwesomeIcon icon={faInfoCircle} /> {/* Ajusta el tamaño del icono */}

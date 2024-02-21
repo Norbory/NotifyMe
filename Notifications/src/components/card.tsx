@@ -9,7 +9,7 @@ export function Card({post}: {post: Post}) {
   const [state, setState] = useState<boolean>(false);
 
   return (
-    <div className="border border-gray-300 rounded-lg mb-4 shadow-md sm:w-3/5 w-4/5">
+    <div className="border border-gray-300 rounded-lg mb-4 shadow-md w-4/5">
       {/* Información del usuario */}
       <div className="flex items-center p-4">
         <img 
@@ -26,7 +26,9 @@ export function Card({post}: {post: Post}) {
         alt='Imagen de publicación'
         className="w-full object-cover"
       />
-      
+      <p className="px-3 text-left text-gray-600 text-lg py-4">
+        {post.description}
+      </p>
       {/* Botones de interacción */}
       <div className="flex justify-between p-4 md:mb-2">
         <div>

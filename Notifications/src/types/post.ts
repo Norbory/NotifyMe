@@ -4,4 +4,5 @@ export interface Post {
     fullname: string;
     userImg: string;
     postImg: string;
+    description: string;
 }

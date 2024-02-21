@@ -19,7 +19,7 @@ Provide a brief introduction to your project. Explain its purpose and what probl
 1. Clone the repository:
 
 ````bash
-git clone https://github.com/yourusername/your-project.git
+git clone https://github.com/Norbory/NotifyMe.git
 ````
 
 

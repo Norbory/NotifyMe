@@ -1,12 +1,24 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import { Post } from "../types";
+import { Socket } from 'socket.io-client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faComment, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
-export function Card({post}: {post: Post}) {
+export function Card({post, socket, user}: {post: Post, socket: Socket | null, user: string}) {
 
   const [likes, setLikes] = useState<number>(0);
   const [state, setState] = useState<boolean>(false);
+
+  const onHandleLike = (type:number) => {
+    setLikes(likes + 1);
+    setState(!state);
+    socket?.emit("sendNotification", {
+      senderName: user,
+      receiverName: post.username,
+      type,
+    });
+  };
 
   return (
     <div className="border border-gray-300 rounded-lg mb-4 shadow-md w-4/5">
@@ -36,18 +48,21 @@ export function Card({post}: {post: Post}) {
         </div>
         <div className="flex items-center">
           <button 
-            onClick={() => { 
-              setLikes(likes + 1); 
-              setState(!state);
-            }}
+            onClick={() => onHandleLike(1)}
             className={`mr-4 ${state ? 'text-red-500 pointer-events-none' : 'text-gray-700 hover:text-red-500'}`}
           >
             <FontAwesomeIcon icon={faHeart} className="text-md md:text-lg" />
           </button>
-          <button className="mr-4 text-gray-700 hover:text-blue-500">
+          <button 
+            className="mr-4 text-gray-700 hover:text-blue-500"
+            onClick={() => onHandleLike(2)}
+          >
             <FontAwesomeIcon icon={faComment} className="text-md md:text-lg" />
           </button>
-          <button className="text-gray-700 hover:text-blue-500">
+          <button 
+            className="text-gray-700 hover:text-blue-500"
+            onClick={() => onHandleLike(3)}
+          >
             <FontAwesomeIcon icon={faPaperPlane} className="text-md md:text-lg" />
           </button>
         </div>

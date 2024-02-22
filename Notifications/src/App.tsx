@@ -7,13 +7,20 @@ import {
 } from './components';
 import { posts } from './data';
 import { Post } from "./types";
+import { io, Socket } from 'socket.io-client';
 
 import './App.css'
 
 function App() {
 
+
   const [username, setUsername] = useState<string>('');
   const [user, setUser] = useState<string>('');
+  const [socket, setSocket] = useState<Socket | null>(null);
+
+  useEffect(() => {
+    setSocket(io('http://localhost:5000')); // Conectar al servidor
+  }, []);
 
   const inputRef = useRef<HTMLInputElement>(null); // Referencia al input
 
@@ -30,16 +37,19 @@ function App() {
       setUser(username);
     }
   };
+  useEffect(() => {
+    socket?.emit("addUser", user); // Enviar el nombre de usuario al servidor
+  }, [socket, user]);
 
   return (
     <div className='container flex flex-col flex-1 self-center'>
       {user ? (
         <>
-          <Navbar user={user}/>
+          <Navbar user={user} socket={socket} />
           <h1 className='mb-4 md:mb-8 text-lg font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-4xl'>Welcome, {user.toUpperCase()}</h1>
           <div className='flex flex-col justify-center items-center'>
             {posts.map((post: Post) => 
-              (<Card key={post.id} post={post} />)
+              (<Card key={post.id} post={post} socket={socket} user={user} />)
             )}
           </div>
           <Footer />

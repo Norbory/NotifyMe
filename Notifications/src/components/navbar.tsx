@@ -1,11 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faBell } from '@fortawesome/free-solid-svg-icons';
+import { Socket } from 'socket.io-client';
 import MONO from '../assets/mono.png';
 import FROG from '../assets/froggi.png';
 import ELE from '../assets/elefan.png';
 import MAR from '../assets/marsu.png';
+import { useEffect, useState } from 'react';
 
-export function Navbar ({ user }: { user: string }) {
+export function Navbar ({user, socket}: {user: string, socket: Socket | null}) {
 
   let perfil = MONO;
 
@@ -28,6 +32,24 @@ export function Navbar ({ user }: { user: string }) {
     default:
       perfil = MONO;
   }
+
+  const [notification, setNotification] = useState<any[]>([]);
+
+  useEffect(() => {
+    const handleNotification = (data: any) => {
+      setNotification(prev => [...prev, data]);
+    };
+
+    socket?.on("getNotification", handleNotification);
+
+    return () => {
+      // Limpiar la suscripción al desmontar el componente
+      socket?.off("getNotification", handleNotification);
+    };
+  }, [socket]);
+
+
+  console.log(notification);
 
   return (
     <nav className="p-4 flex items-center justify-end h-16 bg-inherit sm:w-full">
